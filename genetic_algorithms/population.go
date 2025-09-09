@@ -28,3 +28,23 @@ func (p *Population[T]) ReplaceIndividuals(individuals []T) {
 	p.individuals = individuals
 	p.size = len(individuals)
 }
+
+func (p *Population[T]) GetBest() (T, float64) {
+	if len(p.individuals) == 0 {
+		var zeroValue T
+		return zeroValue, 0
+	}
+
+	bestIndividual := p.individuals[0]
+	bestFitness := bestIndividual.CalculateFitness()
+
+	for _, individual := range p.individuals[1:] {
+		fitness := individual.CalculateFitness()
+		if fitness > bestFitness {
+			bestFitness = fitness
+			bestIndividual = individual
+		}
+	}
+
+	return bestIndividual, bestFitness
+}
