@@ -9,16 +9,16 @@ This project is a Go-based implementation of a genetic algorithm library. It pro
     *   `CalculateFitness()`: Determines the fitness of an individual.
     *   `Crossover()`: Combines two parents to create offspring.
     *   `Mutate()`: Introduces random changes to an individual.
-    *   `Fitness()`: Returns the calculated fitness.
+    *   `Fitness()`: Returns the calculated fitness if stored, or calls `CalculateFitness()`.
     *   `Clone()`: Creates a copy of an individual.
 *   **`Population` Management:** A `Population` struct to manage a collection of individuals.
 *   **Selection Strategies:**
     *   Tournament Selection
+    *   Roulette Wheel Selection
 
 ## Future Work
 
 *   Implement additional selection strategies:
-    *   [ ] Roulette Wheel Selection
     *   [ ] Rank Selection
 *   Implement a complete example in `main.go` to showcase the library's usage.
 *   Add more configuration options to the genetic algorithm (e.g., crossover rate, elitism).
