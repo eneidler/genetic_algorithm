@@ -1,4 +1,4 @@
-package genetic_algorithm
+package ga
 
 type Population[T Individual] struct {
 	individuals []T

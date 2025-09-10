@@ -1,4 +1,4 @@
-package genetic_algorithm
+package ga
 
 import (
 	"errors"
