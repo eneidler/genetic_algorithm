@@ -80,6 +80,78 @@ func CreateEngine[T Individual](config Config, createIndividual func() T) (*Engi
 	return ga, nil
 }
 
-func (e *Engine[T]) Run() (T, float64, error) {
+func (ga *Engine[T]) SetFitnessCallback(callback func(T, float64, int)) {
+	ga.fitnessCallback = callback
+}
 
+func (ga *Engine[T]) Run() (T, float64, error) {
+
+}
+
+func (ga *Engine[T]) selectParent() (T, error) {
+	switch ga.selectionMethod {
+	case TournamentSelection:
+		return ga.population.TournamentSelection(ga.tournamentSize)
+	case RouletteWheelSelection:
+		return ga.population.RouletteWheelSelection()
+	default:
+		return ga.population.TournamentSelection(ga.tournamentSize)
+	}
+}
+
+func (ga *Engine[T]) evolvePopulation() (*Population[T], error) {
+	newIndividuals := make([]T, 0, ga.populationSize)
+
+	// Elitism logic
+	if ga.elitism && ga.eliteCount > 0 {
+		elite := ga.population.GetElite(ga.eliteCount)
+		for _, e := range elite {
+			newIndividuals = append(newIndividuals, e.Clone().(T))
+		}
+	}
+
+	// Crossover and Mutation Logic
+	for len(newIndividuals) < ga.populationSize {
+		parent1, err := ga.selectParent()
+		if err != nil {
+			return nil, err
+		}
+
+		if rand.Float64() < ga.crossoverRate {
+			parent2, err := ga.selectParent()
+			if err != nil {
+				return nil, err
+			}
+
+			offspring := parent1.Crossover(parent2)
+
+			for _, child := range offspring {
+				if len(newIndividuals) < ga.populationSize {
+					childT := child.(T)
+
+					if rand.Float64() < ga.mutationRate {
+						childT.Mutate(ga.mutationRate)
+					}
+
+					newIndividuals = append(newIndividuals, childT)
+				}
+			}
+		} else {
+			// No crossover, just copy parent with possible mutation
+			child := parent1.Clone().(T)
+
+			if rand.Float64() < ga.mutationRate {
+				child.Mutate(ga.mutationRate)
+			}
+
+			newIndividuals = append(newIndividuals, child)
+		}
+	}
+
+	newPop := &Population[T]{
+		individuals: newIndividuals[:ga.populationSize], // Ensure exact population size
+		size:        ga.populationSize,
+	}
+
+	return newPop, nil
 }

@@ -48,3 +48,7 @@ func (p *Population[T]) GetBest() (T, float64) {
 
 	return bestIndividual, bestFitness
 }
+
+func (p *Population[T]) GetElite(eliteCount int) []T {
+
+}
