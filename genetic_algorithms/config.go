@@ -8,6 +8,10 @@ const (
 	RouletteWheelSelection
 )
 
+func (sm SelectionMethod) String() string {
+	return []string{"tournament", "roulette wheel"}[sm]
+}
+
 type Config struct {
 	PopulationSize  int
 	MutationRate    float64
