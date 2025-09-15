@@ -1,6 +1,6 @@
 # Go Genetic Algorithm
 
-This project is a Go-based implementation of a genetic algorithm library. It provides the foundational structures and operations to build and run genetic algorithms for various optimization and search problems. This is a portfolio project and is currently under development.
+This project is a Go-based implementation of a genetic algorithm library. It provides the foundational structures and operations to build and run genetic algorithms for various optimization and search problems. This project is currently under development.
 
 ## Core Components
 
