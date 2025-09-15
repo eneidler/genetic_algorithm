@@ -84,8 +84,38 @@ func (ga *Engine[T]) SetFitnessCallback(callback func(T, float64, int)) {
 	ga.fitnessCallback = callback
 }
 
+// Run executes the genetic algorithm functionality and returns the best individual and its fitness
 func (ga *Engine[T]) Run() (T, float64, error) {
+	ga.population = NewPopulation(ga.populationSize, ga.createIndividual)
 
+	// Track the best individual across all generations
+	ga.bestIndividual, ga.bestFitness = ga.population.GetBest()
+
+	// Evolution loop
+	for gen := 0; gen < ga.generations; gen++ {
+		ga.generation = gen
+
+		nextGen, err := ga.evolvePopulation()
+		if err != nil {
+			return ga.bestIndividual, ga.bestFitness, err
+		}
+
+		ga.population = nextGen
+
+		currentBest, currentBestFitness := ga.population.GetBest()
+		if currentBestFitness > ga.bestFitness {
+			ga.bestIndividual = currentBest
+			ga.bestFitness = currentBestFitness
+		}
+
+		ga.fitnessHistory = append(ga.fitnessHistory, currentBestFitness)
+
+		if ga.fitnessCallback != nil {
+			ga.fitnessCallback(currentBest, currentBestFitness, gen)
+		}
+	}
+
+	return ga.bestIndividual, ga.bestFitness, nil
 }
 
 func (ga *Engine[T]) selectParent() (T, error) {

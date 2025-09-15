@@ -1,5 +1,9 @@
 package ga
 
+import (
+	"sort"
+)
+
 type Population[T Individual] struct {
 	individuals []T
 	size        int
@@ -50,5 +54,17 @@ func (p *Population[T]) GetBest() (T, float64) {
 }
 
 func (p *Population[T]) GetElite(eliteCount int) []T {
+	if eliteCount >= p.size {
+		return p.individuals
+	}
 
+	sorted := make([]T, p.size)
+	copy(sorted, p.individuals)
+
+	// Sort by fitness in descending order
+	sort.Slice(sorted, func(i, j int) bool {
+		return sorted[i].CalculateFitness() > sorted[j].CalculateFitness()
+	})
+
+	return sorted[:eliteCount]
 }
