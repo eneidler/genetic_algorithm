@@ -2,7 +2,7 @@
 
 This project is a Go-based implementation of a genetic algorithm library. It provides the foundational structures and operations to build and run genetic algorithms for various optimization and search problems. This is currently under development.
 
-I used this project as a learning experience when moving from .NET and C# as my daily driver. I built a similar project that was more specific to one domain in .NET, and decided to create a more generic and reusable libary that could be applied to other problem types/domains. 
+I used this project as a learning experience when moving from .NET and C# as my daily driver. I built a similar project that was more specific to one domain in .NET, and decided to create a more generic and reusable library that could be applied to other problem types/domains. 
 
 The project has several comments that were notes to myself for things I ran into while building this, so feel free to ignore those.
 
