@@ -24,11 +24,24 @@ This project is a Go-based implementation of a genetic algorithm library. It pro
     *   Tournament Selection
     *   Roulette Wheel Selection
 *   **Callbacks:** A mechanism to monitor the algorithm's progress by setting a fitness callback function.
+*   **Working Example:** The main.go file contains a working example for finding a target phrase based on a random input.
+    * The configuration can be tweaked to improve fitness. The current example averages around 99.5% using the following config:
+      * config := ga.DefaultConfig()
+      * config.PopulationSize = 400
+      * config.MutationRate = 0.03
+      * config.CrossoverRate = 0.9
+      * config.Generations = 10000
 
 ## Future Work
 
 *   Implement additional selection strategies:
     *   [ ] Rank Selection
-*   Implement a complete example in `main.go` to showcase the library's usage.
 *   Add comprehensive unit tests for all components.
 *   Add more detailed documentation.
+
+## Areas for Improvement
+
+*   The Tournament Selection works well, but the Roulette Wheel Selection is signifcantly slower and performs worse.
+    * This could likely be refined further to optimize this selection method
+*   Right now the Fitness() method in the example just calls CalculateFitness() for the sake of the example
+    * The actual idea behind it was to use it for caching fitness values to improve performance.
