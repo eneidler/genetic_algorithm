@@ -13,6 +13,7 @@ This project is a Go-based implementation of a genetic algorithm library. It pro
     *   Elitism (including the number of elites)
     *   Tournament Size (for tournament selection)
     *   Selection Method
+    *   Early Stopping (when 100% fitness is reached)
 *   **`Individual` Interface:** A generic and well-defined interface for individuals in the population, requiring methods for:
     *   `CalculateFitness()`: Determines the fitness of an individual.
     *   `Crossover()`: Combines two parents to create offspring.

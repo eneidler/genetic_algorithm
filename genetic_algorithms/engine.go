@@ -30,6 +30,7 @@ type Engine[T Individual] struct {
 	bestFitness    float64
 	generation     int
 	fitnessHistory []float64
+	earlyStopping  bool
 }
 
 // CreateEngine returns a pointer to a new Engine, as well as standard error handling.
@@ -75,6 +76,7 @@ func CreateEngine[T Individual](config Config, createIndividual func() T) (*Engi
 		selectionMethod:  config.SelectionMethod,
 		createIndividual: createIndividual,
 		fitnessHistory:   make([]float64, 0, config.Generations),
+		earlyStopping:    config.EarlyStopping,
 	}
 
 	return ga, nil
@@ -85,11 +87,13 @@ func (ga *Engine[T]) SetFitnessCallback(callback func(T, float64, int)) {
 }
 
 // Run executes the genetic algorithm functionality and returns the best individual and its fitness
-func (ga *Engine[T]) Run() (T, float64, error) {
+func (ga *Engine[T]) Run() (T, float64, int, error) {
 	ga.population = NewPopulation(ga.populationSize, ga.createIndividual)
 
 	// Track the best individual across all generations
 	ga.bestIndividual, ga.bestFitness = ga.population.GetBest()
+
+	var finalGen int
 
 	// Evolution loop
 	for gen := 0; gen < ga.generations; gen++ {
@@ -97,7 +101,7 @@ func (ga *Engine[T]) Run() (T, float64, error) {
 
 		nextGen, err := ga.evolvePopulation()
 		if err != nil {
-			return ga.bestIndividual, ga.bestFitness, err
+			return ga.bestIndividual, ga.bestFitness, gen, err
 		}
 
 		ga.population = nextGen
@@ -113,9 +117,14 @@ func (ga *Engine[T]) Run() (T, float64, error) {
 		if ga.fitnessCallback != nil {
 			ga.fitnessCallback(currentBest, currentBestFitness, gen)
 		}
+
+		if ga.bestFitness == 100.0 && ga.earlyStopping {
+			finalGen = gen
+			return ga.bestIndividual, ga.bestFitness, finalGen, nil
+		}
 	}
 
-	return ga.bestIndividual, ga.bestFitness, nil
+	return ga.bestIndividual, ga.bestFitness, finalGen, nil
 }
 
 func (ga *Engine[T]) selectParent() (T, error) {

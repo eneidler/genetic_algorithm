@@ -88,7 +88,11 @@ func main() {
 	config.PopulationSize = 400
 	config.MutationRate = 0.03
 	config.CrossoverRate = 0.9
-	config.Generations = 10000
+	config.Generations = 20000
+	config.EarlyStopping = true
+	// config.Elitism = false
+	config.EliteCount = 4
+	// config.TournamentSize = 2
 	// config.SelectionMethod = ga.RouletteWheelSelection
 
 	engine, err := ga.CreateEngine(config, createIndividual)
@@ -103,6 +107,6 @@ func main() {
 		}
 	})
 
-	best, fitness, err := engine.Run()
-	fmt.Printf("Final result: %s (fitness: %.2f%%)\n", best.genes, fitness)
+	best, fitness, gen, err := engine.Run()
+	fmt.Printf("Final result: %s (fitness: %.2f%%, final gen: %d)\n", best.genes, fitness, gen)
 }

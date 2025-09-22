@@ -21,6 +21,7 @@ type Config struct {
 	EliteCount      int
 	TournamentSize  int
 	SelectionMethod SelectionMethod
+	EarlyStopping   bool
 }
 
 func DefaultConfig() Config {
@@ -33,5 +34,6 @@ func DefaultConfig() Config {
 		EliteCount:      2,
 		TournamentSize:  5,
 		SelectionMethod: TournamentSelection,
+		EarlyStopping:   false,
 	}
 }
