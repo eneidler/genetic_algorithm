@@ -5,7 +5,7 @@ type Individual interface {
 
 	Crossover(parentB Individual) []Individual
 
-	Mutate(mutationRate float64)
+	Mutate()
 
 	Fitness() float64
 

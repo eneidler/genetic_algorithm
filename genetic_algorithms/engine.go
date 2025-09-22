@@ -169,7 +169,7 @@ func (ga *Engine[T]) evolvePopulation() (*Population[T], error) {
 					childT := child.(T)
 
 					if rand.Float64() < ga.mutationRate {
-						childT.Mutate(ga.mutationRate)
+						childT.Mutate()
 					}
 
 					newIndividuals = append(newIndividuals, childT)
@@ -180,7 +180,7 @@ func (ga *Engine[T]) evolvePopulation() (*Population[T], error) {
 			child := parent1.Clone().(T)
 
 			if rand.Float64() < ga.mutationRate {
-				child.Mutate(ga.mutationRate)
+				child.Mutate()
 			}
 
 			newIndividuals = append(newIndividuals, child)

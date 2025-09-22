@@ -41,7 +41,7 @@ func (s *StringIndividual) Crossover(other ga.Individual) []ga.Individual {
 	}
 }
 
-func (s *StringIndividual) Mutate(crossoverRate float64) {
+func (s *StringIndividual) Mutate() {
 	// Random mutation of one character
 	if len(s.genes) == 0 {
 		return
@@ -86,12 +86,12 @@ func main() {
 
 	config := ga.DefaultConfig()
 	config.PopulationSize = 400
-	config.MutationRate = 0.03
-	config.CrossoverRate = 0.9
-	config.Generations = 20000
+	config.MutationRate = 0.09
+	config.CrossoverRate = 0.6
+	config.Generations = 10000
 	config.EarlyStopping = true
 	// config.Elitism = false
-	config.EliteCount = 4
+	config.EliteCount = 5
 	// config.TournamentSize = 2
 	// config.SelectionMethod = ga.RouletteWheelSelection
 

@@ -30,12 +30,14 @@ The project has several comments that were notes to myself for things I ran into
     *   Roulette Wheel Selection
 *   **Callbacks:** A mechanism to monitor the algorithm's progress by setting a fitness callback function.
 *   **Working Example:** The main.go file contains a working example for finding a target phrase based on a random input.
-    * The configuration can be tweaked to improve fitness. The current example averages around 99.5% using the following config:
+    * The configuration can be tweaked to improve fitness. The current example averages 100% fitness in ~4500 generations using the following config:
       * config := ga.DefaultConfig()
       * config.PopulationSize = 400
-      * config.MutationRate = 0.03
-      * config.CrossoverRate = 0.9
+      * config.MutationRate = 0.09
+      * config.CrossoverRate = 0.6
       * config.Generations = 10000
+      * config.EarlyStopping = true
+      * config.EliteCount = 5
 
 ## Future Work
 
@@ -46,7 +48,7 @@ The project has several comments that were notes to myself for things I ran into
 
 ## Areas for Improvement
 
-*   The Tournament Selection works well, but the Roulette Wheel Selection is signifcantly slower and performs worse.
+*   The Tournament Selection works well, but the Roulette Wheel Selection is significantly slower and performs worse.
     * This could likely be refined further to optimize this selection method
 *   Right now the Fitness() method in the example just calls CalculateFitness() for the sake of the example
     * The actual idea behind it was to use it for caching fitness values to improve performance.
